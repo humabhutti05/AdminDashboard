@@ -5,6 +5,7 @@ import ManageCourts from "@/admin/pages/ManageCourts";
 import ManageUsers from "@/admin/pages/ManageUsers";
 import ScheduleBooking from "@/admin/pages/ScheduleBooking";
 import Booking from "@/admin/pages/Booking"; // ✅ Correct import
+import Payments from "./admin/pages/Payment";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="users" element={<ManageUsers />} />
         <Route path="schedule" element={<ScheduleBooking />} />
         <Route path="bookings" element={<Booking />} />
+        <Route path="payments" element={<Payments />} />
       </Route>
     </Routes>
   );
