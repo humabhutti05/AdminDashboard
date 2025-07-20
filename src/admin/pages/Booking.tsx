@@ -7,6 +7,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { MoreHorizontal, Search, Filter, Plus, Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
+
+
 const bookings = [
   {
     id: "1",
@@ -51,7 +53,9 @@ export default function BookingsPage() {
   const filteredBookings = bookings.filter((b) => b.date === formattedDate);
 
   return (
+  
     <div className="p-6 space-y-6 bg-[#1E293B]/60 min-h-screen">
+
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="rounded-xl border border-[#ADEF0E] bg-[#1E293B] p-4 text-white shadow-md">

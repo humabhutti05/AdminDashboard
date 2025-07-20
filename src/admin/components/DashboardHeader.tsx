@@ -1,71 +1,85 @@
-// src/admin/components/DashboardHeader.tsx
-import { Bell, Settings, LogOut, User, ChevronDown } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Bell, Settings, User } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
-export function DashboardHeader() {
+type DashboardHeaderProps = {
+  toggleSidebar?: () => void;
+};
+
+export function DashboardHeader({ toggleSidebar }: DashboardHeaderProps) {
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
   return (
-    <header className="sticky top-0 z-50 bg-[#0F172A] border-b border-[#ADEF0E]/20 px-6 py-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
-      {/* Dashboard Title */}
-      <h2 className="text-2xl font-bold text-white">Dashboard</h2>
-
-      {/* Right Section */}
-      <div className="flex items-center gap-4 flex-wrap justify-end w-full md:w-auto">
-        {/* Search Box */}
-        <input
-          type="text"
-          placeholder="Search anything..."
-          className="px-4 py-2 rounded-lg bg-[#1E293B] text-white placeholder-gray-400 border border-[#ADEF0E]/40 focus:outline-none focus:ring-2 focus:ring-[#ADEF0E] w-full md:w-64 transition"
-        />
-
-        {/* Icon Buttons */}
-        <button className="p-2 rounded-full hover:bg-[#ADEF0E]/20 transition">
-          <Bell size={20} className="text-[#ADEF0E]" />
+    <header className="bg-[#1E293B] text-white px-6 py-4 flex justify-between items-center border-b border-[#334155]">
+      {/* Left: Logo and Mobile Menu */}
+      <div className="flex items-center gap-4">
+        <button
+          onClick={toggleSidebar}
+          className="md:hidden text-white focus:outline-none"
+        >
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
         </button>
-        <button className="p-2 rounded-full hover:bg-[#ADEF0E]/20 transition">
-          <Settings size={20} className="text-[#ADEF0E]" />
-        </button>
+        <span className="text-xl font-bold text-neon-green">Padel Admin</span>
+      </div>
 
-        {/* Profile Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2 bg-[#1E293B]/60 px-3 py-2 rounded-lg border border-[#ADEF0E]/40 hover:shadow-md transition">
-            <Avatar className="w-8 h-8">
-              <AvatarImage src="https://i.pravatar.cc/150?img=32" />
-              <AvatarFallback>MS</AvatarFallback>
-            </Avatar>
-            <div className="text-sm text-left hidden sm:block">
-              <p className="text-white font-semibold leading-none">
-                Martin Septimus
-              </p>
-              <p className="text-gray-400 text-xs">Admin</p>
+      {/* Right: Icons */}
+      <div className="flex items-center gap-6 relative">
+        <Link to="/admin/notifications">
+          <Bell className="w-5 h-5 hover:text-neon-green cursor-pointer" />
+        </Link>
+
+        <div className="relative">
+          <button
+            onClick={() => setIsProfileOpen((prev) => !prev)}
+            className="flex items-center space-x-2"
+          >
+            <img
+              src="https://i.pravatar.cc/30"
+              alt="Avatar"
+              className="w-8 h-8 rounded-full"
+            />
+            <span className="text-sm hidden sm:block">Admin</span>
+          </button>
+
+          {isProfileOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-[#1E293B] rounded-md shadow-lg border border-[#334155] z-10">
+              <Link
+                to="/admin/profile"
+                className="px-4 py-2 text-sm text-white hover:bg-[#334155] flex items-center gap-2"
+
+              >
+                <User className="w-4 h-4" /> Profile
+              </Link>
+              <Link
+                to="/admin/settings"
+               className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#334155]"
+
+              >
+                <Settings className="w-4 h-4" /> Settings
+              </Link>
+              <button
+                onClick={() => {
+                  console.log("Logging out...");
+                }}
+                className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#334155]"
+              >
+                Logout
+              </button>
             </div>
-            <ChevronDown className="text-[#ADEF0E] hidden sm:block" size={16} />
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent className="bg-[#1E293B] text-white border border-[#ADEF0E]/40 shadow-lg mt-2 w-48">
-            <DropdownMenuLabel className="text-[#ADEF0E]">
-              My Account
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-[#ADEF0E]/30" />
-            <DropdownMenuItem className="hover:bg-[#ADEF0E]/10 cursor-pointer gap-2">
-              <User size={16} /> Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-[#ADEF0E]/10 cursor-pointer gap-2">
-              <Settings size={16} /> Settings
-            </DropdownMenuItem>
-            <DropdownMenuSeparator className="bg-[#ADEF0E]/30" />
-            <DropdownMenuItem className="hover:bg-[#ADEF0E]/10 cursor-pointer gap-2 text-red-400">
-              <LogOut size={16} /> Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          )}
+        </div>
       </div>
     </header>
   );
